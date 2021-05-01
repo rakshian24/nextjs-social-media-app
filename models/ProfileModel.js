@@ -9,13 +9,13 @@ const ProfileSchema = new Schema(
     },
     bio: {
       type: String,
-      required: true,
+      default: null,
     },
     social: {
-      facebook: { type: String },
-      instagram: { type: String },
-      twitter: { type: String },
-      youtube: { type: String },
+      facebook: { type: String, default: null },
+      instagram: { type: String, default: null },
+      twitter: { type: String, default: null },
+      youtube: { type: String, default: null },
     },
   },
   { timestamps: true },

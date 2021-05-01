@@ -22,6 +22,7 @@ const UserSchema = new Schema(
       required: true,
       unique: true,
       trim: true,
+      minlength: 3,
     },
     profilePicUrl: {
       type: String,

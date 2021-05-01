@@ -19,7 +19,6 @@ const CommonInputs = ({
     <>
       <Form.Field
         label="Bio"
-        required
         control={TextArea}
         name="bio"
         value={bio}
