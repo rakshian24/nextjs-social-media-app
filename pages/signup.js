@@ -7,6 +7,10 @@ import {
   HeaderMessage,
 } from '../components/Common/WelcomeMessage';
 import { regexUserName } from '../utils/authUser';
+import axios from 'axios';
+import baseUrl from '../utils/baseUrl';
+
+let cancel;
 
 const SignUp = () => {
   const [user, setUser] = useState({
@@ -49,6 +53,31 @@ const SignUp = () => {
   const handleOnFormSubmit = (e) => {
     e.preventDefault();
   };
+
+  const checkUserName = async () => {
+    setUserNameLoading(true);
+    try {
+      //CancelToken is used for canceling the token which is pending and make a new request.
+      cancel && cancel();
+      const CancelToken = axios.CancelToken;
+      const res = await axios.get(`${baseUrl}/api/signup/${userName}`, {
+        cancelToken: new CancelToken((canceler) => (cancel = canceler)),
+      });
+      if (errorMsg !== null) setErroMsg(null);
+      if (res.data === 'Available') {
+        setUserNameAvailable(true);
+        setUser((prev) => ({ ...prev, userName }));
+      }
+    } catch (error) {
+      setUserNameAvailable(false);
+      setErroMsg('UserName Not Available!');
+    }
+    setUserNameLoading(false);
+  };
+
+  useEffect(() => {
+    userName === '' ? setUserNameAvailable(false) : checkUserName();
+  }, [userName]);
 
   useEffect(() => {
     //To check if all the required inputs are not empty and if the fields are empty disabling the submit button
