@@ -61,12 +61,8 @@ const ImageDropZone = ({
                     size="medium"
                     centered
                     style={{ cursor: 'pointer' }}
-
                     onClick={() => inputRef.current.click()}
                   />
-
-
-
                 </Segment>
               </>
             )}

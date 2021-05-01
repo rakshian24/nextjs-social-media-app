@@ -1,12 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  Form,
-  Message,
-  Button,
-  Segment,
-  TextArea,
-  Divider,
-} from 'semantic-ui-react';
+import { Form, Message, Button, Segment, Divider } from 'semantic-ui-react';
 import CommonInputs from '../components/Common/CommonInputs';
 import ImageDropZone from '../components/Common/ImageDropZone';
 import {
@@ -156,6 +149,7 @@ const SignUp = () => {
           />
           <Divider hidden />
           <Button
+            icon="sign-in"
             content="Sign up"
             color="orange"
             type="submit"
