@@ -1,7 +1,16 @@
 import React from 'react';
+import {
+  FooterMessage,
+  HeaderMessage,
+} from '../components/Common/WelcomeMessage';
 
 const Login = () => {
-  return <div>Login Page</div>;
+  return (
+    <>
+      <HeaderMessage />
+      <FooterMessage />
+    </>
+  );
 };
 
 export default Login;
