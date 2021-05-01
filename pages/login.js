@@ -4,32 +4,35 @@ import {
   HeaderMessage,
 } from '../components/Common/WelcomeMessage';
 import { Form, Message, Button, Segment, Divider } from 'semantic-ui-react';
+import { loginUser } from '../utils/authUser';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
+  const [user, setUser] = useState({
     email: '',
     password: '',
   });
-  const { email, password } = formData;
+  const { email, password } = user;
   const [errorMsg, setErroMsg] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const isFormDataFilled = Object.values(formData).every((field) =>
+    const isFormDataFilled = Object.values(user).every((field) =>
       Boolean(field),
     );
     isFormDataFilled ? setSubmitDisabled(false) : setSubmitDisabled(true);
-  }, [formData]);
+  }, [user]);
 
-  const handleOnFormSubmit = (e) => {
+  const handleOnFormSubmit = async(e) => {
     e.preventDefault();
+    setFormLoading(true);
+    await loginUser(user, setErroMsg, setFormLoading)
   };
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setUser((prev) => ({ ...prev, [name]: value }));
   };
 
   return (

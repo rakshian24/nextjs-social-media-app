@@ -6,9 +6,10 @@ import {
   FooterMessage,
   HeaderMessage,
 } from '../components/Common/WelcomeMessage';
-import { regexUserName } from '../utils/authUser';
+import { regexUserName, registerUser } from '../utils/authUser';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
+import uploadPic from '../utils/uploadPicToCloudinary';
 
 let cancel;
 
@@ -50,8 +51,19 @@ const SignUp = () => {
 
   const inputRef = useRef();
 
-  const handleOnFormSubmit = (e) => {
+  const handleOnFormSubmit = async (e) => {
     e.preventDefault();
+    setFormLoading(true);
+    let profilePicUrl = null;
+    if (media !== null) {
+      profilePicUrl = await uploadPic(media);
+    }
+
+    if (media !== null && !profilePicUrl) {
+      setFormLoading(false);
+      return setErroMsg('Error Uploading Image!');
+    }
+    await registerUser(user, profilePicUrl, setErroMsg, setFormLoading);
   };
 
   const checkUserName = async () => {
