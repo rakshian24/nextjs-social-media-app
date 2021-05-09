@@ -26,7 +26,6 @@ const ImageDropZone = ({
             onDragOver={(e) => {
               e.preventDefault();
               setHighlighted(true);
-              console.log('DataTransfer = ', e.dataTransfer.files);
             }}
             onDragLeave={(e) => {
               e.preventDefault();

@@ -10,6 +10,8 @@ import { regexUserName, registerUser } from '../utils/authUser';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import uploadPic from '../utils/uploadPicToCloudinary';
+import {setTitle} from "../common/functions";
+
 
 let cancel;
 
@@ -26,13 +28,13 @@ const SignUp = () => {
   });
 
   const { name, email, password, bio } = user;
-  const handleOnChange = (e) => {
+  const handleOnChange = e => {
     const { name, value, files } = e.target;
     if (name === 'media') {
       setMedia(files[0]);
       setMediaPreview(URL.createObjectURL(files[0]));
     }
-    setUser((prev) => ({ ...prev, [name]: value }));
+    setUser(prev => ({ ...prev, [name]: value }));
   };
 
   const [showSocialLinks, setShowSocialLinks] = useState(false);
@@ -49,9 +51,13 @@ const SignUp = () => {
   const [mediaPreview, setMediaPreview] = useState(null);
   const [highlighted, setHighlighted] = useState(false);
 
+  useEffect(() => {
+    setTitle(`Sign Up`);
+  });
+
   const inputRef = useRef();
 
-  const handleOnFormSubmit = async (e) => {
+  const handleOnFormSubmit = async e => {
     e.preventDefault();
     setFormLoading(true);
     let profilePicUrl = null;
@@ -73,12 +79,12 @@ const SignUp = () => {
       cancel && cancel();
       const CancelToken = axios.CancelToken;
       const res = await axios.get(`${baseUrl}/api/signup/${userName}`, {
-        cancelToken: new CancelToken((canceler) => (cancel = canceler)),
+        cancelToken: new CancelToken(canceler => (cancel = canceler)),
       });
       if (errorMsg !== null) setErroMsg(null);
       if (res.data === 'Available') {
         setUserNameAvailable(true);
-        setUser((prev) => ({ ...prev, userName }));
+        setUser(prev => ({ ...prev, userName }));
       }
     } catch (error) {
       setUserNameAvailable(false);
@@ -93,7 +99,7 @@ const SignUp = () => {
 
   useEffect(() => {
     //To check if all the required inputs are not empty and if the fields are empty disabling the submit button
-    const isUser = Object.values({ name, email, password, bio }).every((item) =>
+    const isUser = Object.values({ name, email, password, bio }).every(item =>
       Boolean(item),
     );
     isUser ? setSubmitDisabled(false) : setSubmitDisabled(true);
@@ -169,7 +175,7 @@ const SignUp = () => {
             label="User Name"
             placeholder="User Name"
             value={userName}
-            onChange={(e) => {
+            onChange={e => {
               setUserName(e.target.value);
               if (regexUserName.test(e.target.value)) {
                 setUserNameAvailable(true);

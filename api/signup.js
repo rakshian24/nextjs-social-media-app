@@ -27,7 +27,6 @@ router.get('/:userName', async (req, res) => {
     }
     res.status(200).send('Available');
   } catch (e) {
-    console.log('Error : ', e);
     return res.status(500).send('Server Error');
   }
 });
@@ -98,7 +97,6 @@ router.post('/', async (req, res) => {
       },
     );
   } catch (error) {
-    console.log('Error : ', error);
     return res.status(500).send('Server Error');
   }
 });

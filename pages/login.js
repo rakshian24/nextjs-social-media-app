@@ -5,6 +5,8 @@ import {
 } from '../components/Common/WelcomeMessage';
 import { Form, Message, Button, Segment, Divider } from 'semantic-ui-react';
 import { loginUser } from '../utils/authUser';
+import cookie from 'js-cookie';
+import { setTitle } from '../common/functions';
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -18,21 +20,30 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const isFormDataFilled = Object.values(user).every((field) =>
-      Boolean(field),
-    );
+    setTitle(`Login`);
+  });
+
+  useEffect(() => {
+    const userEmail = cookie.get('email');
+    if (userEmail) {
+      setUser(prev => ({ ...prev, email: userEmail }));
+    }
+  }, []);
+
+  useEffect(() => {
+    const isFormDataFilled = Object.values(user).every(field => Boolean(field));
     isFormDataFilled ? setSubmitDisabled(false) : setSubmitDisabled(true);
   }, [user]);
 
-  const handleOnFormSubmit = async(e) => {
+  const handleOnFormSubmit = async e => {
     e.preventDefault();
     setFormLoading(true);
-    await loginUser(user, setErroMsg, setFormLoading)
+    await loginUser(user, setErroMsg, setFormLoading);
   };
 
-  const handleOnChange = (e) => {
+  const handleOnChange = e => {
     const { name, value } = e.target;
-    setUser((prev) => ({ ...prev, [name]: value }));
+    setUser(prev => ({ ...prev, [name]: value }));
   };
 
   return (

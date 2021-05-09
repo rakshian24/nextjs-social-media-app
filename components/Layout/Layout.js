@@ -5,7 +5,7 @@ import { Container } from 'semantic-ui-react';
 import Router from 'next/router';
 import nprogress from 'nprogress';
 
-function Layout({ children }) {
+function Layout({ children, user }) {
   Router.onRouteChangeStart = () => nprogress.start();
   Router.onRouteChangeComplete = () => nprogress.done();
   Router.onRouteChangeError = () => nprogress.done();
@@ -14,7 +14,7 @@ function Layout({ children }) {
     <>
       <HeadTags />
 
-      <Navbar />
+      <Navbar user={user} />
 
       <Container style={{ paddingTop: '1rem' }} text>
         {children}
